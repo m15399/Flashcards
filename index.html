@@ -1,0 +1,96 @@
+<HTML>
+	<body>
+		<script src='Utils.js'></script>
+		<script src='Actions.js'></script>
+
+		<script src='Input.js'></script>
+		
+		<script src='TextArea.js'></script>
+		<script src='Flashcard.js'></script>
+		<script src='Pile.js'></script>
+		<script src='Deck.js'></script>
+		
+		<script src='ReviewView.js'></script>
+		<script>
+
+		document.body.style.margin = '0px';
+		document.body.bgColor = 'black';
+
+		var canvas = document.createElement('canvas');
+		var width = canvas.width = window.innerWidth;
+		var height = canvas.height = window.innerHeight;
+		document.body.appendChild(canvas);
+
+		var ctx = canvas.getContext('2d');
+
+		var defaultDeck = new Deck('default');
+		defaultDeck.addCard(new Flashcard('Welcome'));
+		var activeView = new ReviewView(defaultDeck);
+				
+		function start(){
+			Input.init();
+
+			currentTime = Date.now()-1;
+			setInterval(update, 1000/30);
+		}
+
+		var currentTime;
+		var screenScale = 1;
+		function update(){
+			currentTime = Date.now();
+
+			activeView.update();
+
+			draw(ctx);
+		}
+
+		function draw(g){
+			g.fillStyle = '#aaaaaa';
+			g.fillRect(0,0,width,height);
+
+			//g.fillStyle = '#000000'; // middle line
+			//g.fillRect(0, height/2, width, 1);
+
+			activeView.draw(g);
+
+			// g.fillStyle = '#000000'; // mouse pos
+			// g.fillRect(Input.currentMouseX-5, Input.currentMouseY-5, 10, 10);
+		}
+
+
+		start();
+
+/*
+
+Decks
+ability to export/import for safe-keeping
+
+Piles
+merge
+revert to original state
+counter indicating number of cards
+
+Review View
+extra piles you can drag onto
+shuffle button, flip pile button, merge piles, examine piles
+
+Flashcards
+indicate front or back, card number
+buttons to edit text, change alignment, change font size
+
+Text Area
+image urls
+can edit text by typing in, copy/paste, either with a popup window or in the canvas
+
+Quiz Me button?
+
+Resizeable Window
+
+*/
+
+		</script>
+
+	</body>
+</HTML>
+
+
